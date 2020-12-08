@@ -129,10 +129,10 @@ int main()
 
     for (r = 1; r <= rows-1; r++)
     {
-        determineLoc(rowLoc, r, rows);
+      //  determineLoc(rowLoc, r, rows);
         for (c = 1; c <= cols-1; c++)
         {
-            determineLoc(colLoc, c, cols);
+           // determineLoc(colLoc, c, cols);
 
             total = (int)greyMat.at<uchar>(r, c) * kernel_3[1][1]; // middle calculation (will never throw)
 
