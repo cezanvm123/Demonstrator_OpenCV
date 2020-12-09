@@ -149,6 +149,10 @@
     <Image Include="TestImages\OpenCV.png" />
     <Image Include="TestImages\PI.png" />
   </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Kernel.hpp" />
+    <ClInclude Include="TestProject_V1.hpp" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

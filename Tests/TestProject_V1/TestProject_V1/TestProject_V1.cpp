@@ -6,156 +6,96 @@
 #include "opencv2/imgproc/imgproc.hpp"
 #include <iostream>
 
+#include "Kernel.hpp"
+
 using namespace cv;
 using namespace std;
 
 #include <iostream>
 
-enum Location
-{
-    IS_ZERO,
-    IS_BETWEEN,
-    IS_MAX
-};
-
-void setupEdgeKernel(int** kernel, size_t rows, size_t cols)
-{
-
-    kernel[0][0] = -1;
-    kernel[0][1] = -1;
-    kernel[0][2] = -1;
-    kernel[1][0] = -1;
-    kernel[1][1] = 8;
-    kernel[1][2] = -1;
-    kernel[2][0] = -1;
-    kernel[2][1] = -1;
-    kernel[2][2] = -1;
-
-
-    for (int r = 0; r < rows; r++)
-    {
-        for (int c = 0; c < cols; c++)
-        {
-            std::cout << kernel[r][c] << " ";
-
-        }
-        std::cout << std::endl;
-    }
-}
-
-
-//void determineLoc(Location& l, int &val, int &max)
-//{
-//    if (val == 0)
-//    {
-//        l = Location::IS_ZERO;
-//    }
-//    else if (val == max - 1)
-//    {
-//        l = Location::IS_MAX;
-//    }
-//    else
-//    {
-//        if (l != Location::IS_BETWEEN) // check to not keep setting the value, might perform worse
-//        {
-//            l = Location::IS_BETWEEN;
-//        }
-//    }
-//}
-
 
 int main()
 {
-    int **kernel_3;
-    kernel_3 = new int* [10];
-    for (int i = 0; i < 10; i++)
-        kernel_3[i] = new int[10];
-
-    int kernel_5[5][5];
+   
     
 
-    Mat image1, image2, dst;
+    Mat image1,greyMat;
 
-    //image1 = imread("D:\\School\\Signals\\Demonstrator_OpenCV\\Tests\\TestProject_V1\\TestProject_V1\\TestImages\\OpenCV.png", IMREAD_COLOR);
-    //if (!image1.data) { printf("Error loading image1 \n"); return -1; }
+   // image1 = imread("D:\\School\\Signals\\Demonstrator_OpenCV\\Tests\\TestProject_V1\\TestProject_V1\\TestImages\\Checkerboard.png", IMREAD_COLOR);
+    image1  = imread("D:\\School\\Signals\\Demonstrator_OpenCV\\Tests\\TestProject_V1\\TestProject_V1\\TestImages\\tue.png", IMREAD_COLOR);
 
-
-
-    image1  = imread("D:\\School\\Signals\\Demonstrator_OpenCV\\Tests\\TestProject_V1\\TestProject_V1\\TestImages\\PI.png", IMREAD_COLOR);
-
-
-    Mat greyMat, colorMat;
     cvtColor(image1, greyMat, cv::COLOR_BGR2GRAY);
-
-
-
     namedWindow("Display window gray", WINDOW_AUTOSIZE);
-    imshow("Display window gray", greyMat);   
+    imshow("Display window gray", greyMat);
+
+
+    //*********** line detection
+
+    int lineData[9] = { -1,-1,-1,-1,8,-1,-1,-1,-1 }; // line detection kernel data
+    Kernel* lineKernel = new Kernel_3X3();
+    lineKernel->initKernel(lineData, 3);
+    lineKernel->printKernel();
+
+    cv::Mat lineOutput(cv::Size(greyMat.cols, greyMat.rows), CV_8UC1);
+    lineOutput = 0;
+    lineKernel->calculateImage(greyMat, lineOutput);  // actual calculation
+
+    namedWindow("Display window lineOutput", WINDOW_AUTOSIZE);
+    imshow("Display window lineOutput", lineOutput);
 
 
 
-    // kernel calculation
-    // calculations:
-        // (row-1, col-1) * (kernel[0][0])
-        // (row-1, col) * (kernel[0][1])
-        // (row-1, col+1) * (kernel[0][2])
+    //********* gausian blur 3x3 *************
 
-        // (row, col-1) * (kernel[1][0])
-        // (row, col) * (kernel[1][1])    // middle
-        // (row, col+1) * (kernel[1][2])
+    int gaussian3Data[9] = { 1,2,1,2,4,2,1,2,1 }; // gausian blur kernel data
+    Kernel* gaussian3Kernel = new Kernel_3X3();
+    gaussian3Kernel->initKernel(gaussian3Data, 3);
+    gaussian3Kernel->setDivider(16);
+    gaussian3Kernel->printKernel();
 
-        // (row+1, col-1) * (kernel[2][0])
-        // (row+1, col) * (kernel[2][1])
-        // (row+1, col+1) * (kernel[2][2])
+    cv::Mat gaussian3Output(cv::Size(greyMat.cols, greyMat.rows), CV_8UC1);
+    gaussian3Output = 0;
+    gaussian3Kernel->calculateImage(greyMat, gaussian3Output);  // actual calculation
 
-    cv::Mat test(cv::Size( greyMat.cols, greyMat.rows), CV_8UC1);
-    test = 0;
-
-    setupEdgeKernel(kernel_3, 3, 3);
+    namedWindow("Display window gaussian3Output", WINDOW_AUTOSIZE);
+    imshow("Display window gaussian3Output", gaussian3Output);
 
 
 
-    // intitialized above the loops to improve performance and
-    // function calls
-    int total = 0;
-    int c = 0;
-    int r = 0;
+    //********* gausian blur 5x5 *************
 
-    int rows = greyMat.rows -1;
-    int cols = greyMat.cols -1;
+    int gaussian5Data[25] = { 1,4,6,4,1,4,16,24,16,4,6,24,36,24,6,4,16,24,16,4,1,4,6,4,1 }; // gausian blur kernel data
+    Kernel* gaussian5Kernel = new Kernel_3X3();
+    gaussian5Kernel->initKernel(gaussian5Data, 5);
+    gaussian5Kernel->setDivider(256);
+    gaussian5Kernel->printKernel();
 
-    Location rowLoc = Location::IS_ZERO;
-    Location colLoc = Location::IS_ZERO;
+    cv::Mat gaussian5Output(cv::Size(greyMat.cols, greyMat.rows), CV_8UC1);
+    gaussian5Output = 0;
+    gaussian5Kernel->calculateImage(greyMat, gaussian5Output);  // actual calculation
 
-    for (r = 1; r <= rows-1; r++)
+    namedWindow("Display window gaussian5Output", WINDOW_AUTOSIZE);
+    imshow("Display window gaussian5Output", gaussian5Output);
+
+
+
+    // ****** guassian 5x5 15 times on the same image just for fun
+    cv::Mat gaussian5Output_2(cv::Size(gaussian5Output.cols, gaussian5Output.rows), CV_8UC1);
+    gaussian5Output_2 = gaussian5Output;
+
+    for (int i = 0; i < 15; i++)
     {
-      //  determineLoc(rowLoc, r, rows);
-        for (c = 1; c <= cols-1; c++)
-        {
-           // determineLoc(colLoc, c, cols);
+        gaussian5Kernel->calculateImage(gaussian5Output, gaussian5Output_2);  // actual calculation
 
-            total = (int)greyMat.at<uchar>(r, c) * kernel_3[1][1]; // middle calculation (will never throw)
-
-                total += (int)greyMat.at<uchar>(r-1, c-1) * kernel_3[0][0];
-                total += (int)greyMat.at<uchar>(r-1, c) * kernel_3[0][1];
-                total += (int)greyMat.at<uchar>(r-1, c+1) * kernel_3[0][2];
-
-                total += (int)greyMat.at<uchar>(r, c - 1) * kernel_3[1][0];
-                total += (int)greyMat.at<uchar>(r, c + 1) * kernel_3[1][2];
-
-                total += (int)greyMat.at<uchar>(r+1, c - 1) * kernel_3[2][0];
-                total += (int)greyMat.at<uchar>(r+1, c) * kernel_3[2][1];
-                total += (int)greyMat.at<uchar>(r+1, c + 1) * kernel_3[2][2];
-
-
-                test.at<uchar>(Point(c, r)) = total;
-        }
+        
     }
-   
+
+    namedWindow("Display window gaussian5Output_2", WINDOW_AUTOSIZE);
+    imshow("Display window gaussian5Output_2", gaussian5Output_2);
+    
 
 
-    namedWindow("Line", WINDOW_AUTOSIZE);
-    imshow("Line", test);
+
 
 
     waitKey(0);
