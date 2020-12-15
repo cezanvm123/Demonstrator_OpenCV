@@ -9,18 +9,6 @@ class Kernel
 {
 public:
 
-	virtual void initKernel(int* values, int width) = 0;
-
-	// default is 1
-	virtual void setDivider(int divider) = 0; 
-	virtual void calculateImage(cv::Mat& input, cv::Mat& output) = 0;
-	virtual void printKernel() = 0;
-};
-
-
-class Kernel_3X3 : public Kernel  // width is a parameter for now
-{
-public:
 	void initKernel(int* values, int w)
 	{
 		width = w;
@@ -28,15 +16,58 @@ public:
 		// setup the 2d array
 		kernel = new int* [width];
 		for (int i = 0; i < width; i++)
-		{ 
+		{
 			kernel[i] = new int[width];
 		}
 
 		fillKernel(values);
+	}
+	
+	void initKernel(int* vector_1, int* vector_2, int width)
+	{
 
 	}
 
+	// default is 1
+	void setDivider(int d)
+	{
+		divider = d;
+	}
+	
+	void calculateImage(cv::Mat& input, cv::Mat& output)
+	{
+		if (seperable)
+			calculateImageVertex(input, output);
+		else
+			calculateImageMatrix(input, output);
+	}
+	
 	void printKernel()
+	{
+		if (seperable)
+			printMatrixSeperable();
+		else
+			printMatrix();
+	}
+
+private:
+
+	void fillKernel(int* values)
+	{
+		const int totalVals = pow(width, 2);
+
+		int row = -1;
+		for (int i = 0; i < totalVals; i++)
+		{
+			if (i % width == 0)
+				row++;
+
+			kernel[row][i % width] = values[i];
+		}
+
+	}
+
+	void printMatrix()
 	{
 		for (int r = 0; r < width; r++)
 		{
@@ -49,34 +80,13 @@ public:
 		}
 	}
 
-	void setDivider(int d)
+	void printMatrixSeperable()
 	{
-		divider = d;
+
 	}
 
-
-	// special cases calculations 3x3 matrix
-	//	- Top left
-	//	- Top row 
-	//	- Top right
-
-	// - left 
-	// - right 
-
-	// - Down left 
-	// - Down row
-	// - Down right
-
-	// normal calculation
-
-
-
-
-	// temp calculation for now
-	// This calculation will shrink the image by: (int)(width/2) *2
-	void calculateImage(cv::Mat& input, cv::Mat& output)
+	void calculateImageMatrix(cv::Mat& input, cv::Mat& output)
 	{
-
 		int rows = input.rows - 2;
 		int cols = input.cols - 2;
 		int pixelValue = 0;
@@ -87,7 +97,7 @@ public:
 
 		int shrink = width / 2;    // this is a int so 1.5 will become 1 (expected behaveour)
 
-		for (int r = shrink; r <= rows -shrink ; r++)
+		for (int r = shrink; r <= rows - shrink; r++)
 		{
 			for (int c = shrink; c <= cols - shrink; c++)
 			{
@@ -110,7 +120,7 @@ public:
 				}
 
 
-				output.at<uchar>(cv::Point(c, r)) = pixelValue/divider;
+				output.at<uchar>(cv::Point(c, r)) = pixelValue / divider;
 
 				pixelValue = 0;
 				kr = 0;
@@ -119,31 +129,19 @@ public:
 		}
 	}
 
-
-
-
-
-private:
-
-	void fillKernel(int* values)
+	void calculateImageVertex(cv::Mat& input, cv::Mat& output)
 	{
-		const int totalVals = pow(width, 2);
 
-		int row = -1;
-		for (int i = 0; i < totalVals; i++)
-		{
-			if (i % width == 0)
-				row++;
-
-			kernel[row][i%width] = values[i];
-		}
-
-		
 	}
 
-
-
-	int **kernel;
+	int** kernel;
 	int width;
 	int divider = 1;
+
+	bool seperable;
+
+	int* v_1;  // horizontal
+	int* v_2;  // vertical
 };
+
+
