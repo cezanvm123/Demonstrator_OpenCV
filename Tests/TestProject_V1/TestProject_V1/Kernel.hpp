@@ -14,18 +14,27 @@ public:
 		width = w;
 
 		// setup the 2d array
-		kernel = new int* [width];
+		kernel = new int* [width]; // mem allocation
 		for (int i = 0; i < width; i++)
 		{
-			kernel[i] = new int[width];
+			kernel[i] = new int[width]; // mem allocation
 		}
 
 		fillKernel(values);
+
+		seperable = false;
 	}
 	
-	void initKernel(int* vector_1, int* vector_2, int width)
+	void initKernel(int* v_1, int* v_2, int w)
 	{
+		vector_1 = new int [width]; // mem allocation
+		vector_2 = new int [width]; // mem allocation
+		
+		vector_1 = v_1;
+		vector_2 = v_2;
+		width = w;
 
+		seperable = true;
 	}
 
 	// default is 1
@@ -131,7 +140,37 @@ private:
 
 	void calculateImageVertex(cv::Mat& input, cv::Mat& output)
 	{
+		int rows = input.rows - 2;
+		int cols = input.cols - 2;
+		int pixelValue = 0;
+		int intr;	 // internal calculation row
+		int intc;    // internal calculation column
+		int kr = 0;  // kernel row   
+		int kc = 0;  // kernel column
 
+		int shrink = width / 2;    // this is a int so 1.5 will become 1 (expected behaveour)
+
+		int* vec = new int[width];
+
+		for (int r = shrink; r <= rows - shrink; r++)
+		{
+			for (int c = shrink; c <= cols - shrink; c++)
+			{
+				for (int i = 0; i < width; i++)
+				{
+				    vec[i] = (input.at<uchar>(r + (i - 1), c - 1) * vector_1[0]) + (input.at<uchar>(r + (i - 1), c) * vector_1[1]) + (input.at<uchar>(r + (i - 1), c + 1) * vector_1[2]);
+				}
+
+				for (int i = 0; i < width; i++)
+				{
+					pixelValue += vec[i] * vector_1[i];
+				}
+
+				 output.at<uchar>(cv::Point(c, r)) = pixelValue / divider;
+				 
+				 pixelValue = 0;
+			}
+		}
 	}
 
 	int** kernel;
@@ -140,8 +179,8 @@ private:
 
 	bool seperable;
 
-	int* v_1;  // horizontal
-	int* v_2;  // vertical
+	int* vector_1;  // horizontal
+	int* vector_2;  // vertical
 };
 
 

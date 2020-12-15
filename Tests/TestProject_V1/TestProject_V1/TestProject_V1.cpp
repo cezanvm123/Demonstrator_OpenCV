@@ -30,9 +30,36 @@ int main()
     imshow("Display window gray", greyMat);
 
 
-    //*********** line detection
 
-    int lineData[9] = { -1,-1,-1,-1,8,-1,-1,-1,-1 }; // line detection kernel data
+    ////*********** line detection *****************
+
+    //int lineData[9] = { -1,-1,-1,-1,8,-1,-1,-1,-1 }; // line detection kernel data
+    //Kernel* lineKernel = new Kernel();
+    //lineKernel->initKernel(lineData, 3);
+    //lineKernel->printKernel();
+
+    //cv::Mat lineOutput(cv::Size(greyMat.cols, greyMat.rows), CV_8UC1);
+    //lineOutput = 0;
+
+    //auto start_time = std::chrono::high_resolution_clock::now();
+
+    //lineKernel->calculateImage(greyMat, lineOutput);  // actual calculation
+    //auto end_time = std::chrono::high_resolution_clock::now();
+    //auto time = end_time - start_time;
+
+    //std::cout << "Kernel" << time / std::chrono::milliseconds(1) << "ms to run.\n";
+
+
+
+    //namedWindow("Display window lineOutput", WINDOW_AUTOSIZE);
+    //imshow("Display window lineOutput", lineOutput);
+
+
+
+
+    //*********** line detection matrix *****************
+
+    int lineData[9] = { -1,0 ,1,-2,0,2,-1,0,1 }; // line detection kernel data
     Kernel* lineKernel = new Kernel();
     lineKernel->initKernel(lineData, 3);
     lineKernel->printKernel();
@@ -46,7 +73,7 @@ int main()
     auto end_time = std::chrono::high_resolution_clock::now();
     auto time = end_time - start_time;
 
-    std::cout << time / std::chrono::milliseconds(1) << "ms to run.\n";
+    std::cout << "Kernel" << time / std::chrono::milliseconds(1) << "ms to run.\n";
 
     
 
@@ -55,6 +82,57 @@ int main()
 
 
 
+    //*********** line detection seperable *****************
+    {
+        int vector_1[3] = { -1,0,1 }; // horizontal
+        int vector_2[3] = { 1,2,1 }; // vertical 
+        Kernel* lineKernel = new Kernel();
+        lineKernel->initKernel(vector_1, vector_2, 3);
+        // lineKernel->printKernel();
+
+        cv::Mat lineOutput(cv::Size(greyMat.cols, greyMat.rows), CV_8UC1);
+        lineOutput = 0;
+
+        auto start_time = std::chrono::high_resolution_clock::now();
+
+        lineKernel->calculateImage(greyMat, lineOutput);  // actual calculation
+        auto end_time = std::chrono::high_resolution_clock::now();
+        auto time = end_time - start_time;
+
+        std::cout << "seperable" << time / std::chrono::milliseconds(1) << "ms to run.\n";
+
+
+
+        namedWindow("Display window ", WINDOW_AUTOSIZE);
+        imshow("Display window ", lineOutput);
+    }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     //********* gausian blur 3x3 *************
 
     int gaussian3Data[9] = { 1,2,1,2,4,2,1,2,1 }; // gausian blur kernel data
