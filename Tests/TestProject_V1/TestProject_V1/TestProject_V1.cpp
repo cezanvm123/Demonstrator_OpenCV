@@ -7,7 +7,6 @@
 #include <iostream>
 #include <chrono>
 
-#include "Kernel.hpp"
 
 #include "Test.hpp"
 #include "Kernel_Image.hpp"

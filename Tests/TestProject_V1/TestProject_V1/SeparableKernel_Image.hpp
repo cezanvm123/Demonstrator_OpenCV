@@ -9,9 +9,7 @@ class SeparableKernel_Image : public Test
 public:
 	SeparableKernel_Image(int vectorSize, float* h_vector, float* v_vector, int divider, bool displayImg, string testName, string path) :
 		vectorSize(vectorSize), h_vector(h_vector), v_vector(v_vector), divider(divider), displayImg(displayImg), Test(testName, path, 1)
-	{
-
-	}
+	{}
 
 	void runTest()
 	{

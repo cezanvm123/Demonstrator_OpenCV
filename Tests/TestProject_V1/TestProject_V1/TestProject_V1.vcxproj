@@ -150,7 +150,6 @@
     <Image Include="TestImages\PI.png" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Kernel.hpp" />
     <ClInclude Include="Kernel_Image.hpp" />
     <ClInclude Include="SeparableKernel_Image.hpp" />
     <ClInclude Include="Test.hpp" />
