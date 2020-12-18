@@ -18,18 +18,24 @@ public:
 	void printResult()
 	{
 		std::cout << "*******************" << testName << "*******************" << std::endl;
-		std::cout << "Amount of frames processed: " << frameCount << std::endl;
+		std::cout << "Amount of frames processed: " << dataIndex << std::endl;
 
 
 		int totalMS = 0;
-		for (int i = 0; i < frameCount; i++)
+		for (int i = 0; i < dataIndex; i++)
 		{
 			totalMS += frameTime[i];
 		}
 
 		std::cout << "Total processing time: " << (float)totalMS / 1000.0 << "s" << std::endl;
-		std::cout << "Average frame time: " << (float)totalMS / (float)frameCount << "ms" << std::endl;
-		std::cout << "######################################################################" << std::endl << std::endl;
+		float avgFrameTime = (float)totalMS / (float)dataIndex;
+		std::cout << "Average frame time: " << avgFrameTime << "ms" << std::endl;
+
+
+		float avgFPS = 1000.0 / avgFrameTime;
+
+		std::cout << "Average fps: " << avgFPS << "fps" << std::endl;
+		std::cout << "-----------------------------------------------------------------" << std::endl << std::endl << std::endl;
 	}
 
 	string getPath()
@@ -67,12 +73,16 @@ public:
 		
 	}
 
+	int getFrameCount()
+	{
+
+	}
 	
 private:
 
 	int calculateAVGFPS()
 	{
-
+		return frameCount;
 	}
 	
 	chrono::steady_clock::time_point start;
@@ -80,7 +90,7 @@ private:
 	
 	int* frameTime;   // array containing all time measurements
 	int dataIndex = 0;
-	int frameCount;
+	int frameCount;  // used while init frameTime array
 	string testName;  
 	string path;
 

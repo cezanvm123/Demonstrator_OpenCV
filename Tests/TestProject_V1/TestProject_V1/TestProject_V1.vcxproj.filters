@@ -37,5 +37,8 @@
     <ClInclude Include="Kernel_Image.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="SeparableKernel_Video.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
