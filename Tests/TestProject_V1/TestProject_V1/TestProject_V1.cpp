@@ -23,6 +23,8 @@ using namespace std;
 int main()
 {
    
+	String imgPath = "D:\\School\\Signals\\Demonstrator_OpenCV\\Tests\\TestProject_V1\\TestProject_V1\\TestImages\\openCV_240.png";
+	String vidPath = "D:\\School\\Signals\\Demonstrator_OpenCV\\Tests\\TestProject_V1\\TestProject_V1\\TestImages\\OpenCV_vid.mp4";
 	{
 
 		float data[9] = { -1,  -1,  -1,
@@ -33,7 +35,7 @@ int main()
 			1,
 			false,
 			"kernel, line test, image",
-			"C:\\School\\Signals\\Demonstrator_OpenCV\\Tests\\TestProject_V1\\TestProject_V1\\TestImages\\openCV_240.png");
+			imgPath);
 		kernel->runTest();
 
 	}
@@ -48,7 +50,7 @@ int main()
 			1,
 			false,
 			"separable, line test, image",
-			"C:\\School\\Signals\\Demonstrator_OpenCV\\Tests\\TestProject_V1\\TestProject_V1\\TestImages\\openCV_240.png");
+			imgPath);
 		kernel->runTest();
 
 	}
@@ -64,7 +66,7 @@ int main()
 			1,
 			false,
 			"kernel, Gaussian, image",
-			"C:\\School\\Signals\\Demonstrator_OpenCV\\Tests\\TestProject_V1\\TestProject_V1\\TestImages\\openCV_240.png");
+			imgPath);
 		kernel->runTest();
 
 	}
@@ -79,7 +81,7 @@ int main()
 			1,
 			false,
 			"separable, Gaussian, image",
-			"C:\\School\\Signals\\Demonstrator_OpenCV\\Tests\\TestProject_V1\\TestProject_V1\\TestImages\\openCV_240.png");
+			imgPath);
 		kernel->runTest();
 
 	}
@@ -97,12 +99,12 @@ int main()
 			true,
 			871,
 			"separable, line test, video",
-			"C:\\School\\Signals\\Demonstrator_OpenCV\\Tests\\TestProject_V1\\TestProject_V1\\TestImages\\dvd.mp4");
+			vidPath);
 		kernel->runTest();
 
 	}
 
-	if(false)  // used to disable the test
+	if(true)  // used to disable the test
 	{
 
 		float h_vector[3] = { 0.27901, 0.44198, 0.27901 }; // horizontal
@@ -115,7 +117,7 @@ int main()
 			true,
 			871,
 			"separable, Gaussian, video",
-			"C:\\School\\Signals\\Demonstrator_OpenCV\\Tests\\TestProject_V1\\TestProject_V1\\TestImages\\balls.mp4");
+			vidPath);
 		kernel->runTest();
 
 	}
