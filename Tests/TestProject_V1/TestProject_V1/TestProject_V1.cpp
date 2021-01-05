@@ -1,20 +1,148 @@
 // TestProject_V1.cpp : This file contains the 'main' function. Program execution begins and ends there.
 //
 
+//Opencv C++ Example of Operation on Arrays:absdiff  
+#include "opencv2/highgui/highgui.hpp"
+#include "opencv2/imgproc/imgproc.hpp"
 #include <iostream>
+#include <chrono>
+
+
+#include "Test.hpp"
+
+
+#include "Kernel_Image.hpp"
+#include "Kernel_Video.hpp"
+#include "SeparableKernel_Image.hpp"
+#include "SeparableKernel_Video.hpp"
+
+
+using namespace cv;
+using namespace std;
+
+#include <iostream>
+
 
 int main()
 {
-    std::cout << "Hello World! Test project\n";
+   
+	String roadImg = "D:\\School\\Signals\\Demonstrator_OpenCV\\Tests\\TestProject_V1\\TestProject_V1\\TestImages\\road.png";
+
+	String imgPath = "D:\\School\\Signals\\Demonstrator_OpenCV\\Tests\\TestProject_V1\\TestProject_V1\\TestImages\\openCV_240.png";
+	String vidPath = "D:\\School\\Signals\\Demonstrator_OpenCV\\Tests\\TestProject_V1\\TestProject_V1\\TestImages\\openCV.mp4";
+	{
+
+		float data[9] = { -1,  -1,  -1,
+						  -1,   8,  -1,
+						  -1,  -1,  -1 };
+		Test* kernel = new Kernel_Image(3,
+			data,
+			1,
+			true,
+			"kernel, line test, image",
+			roadImg);
+		kernel->runTest();
+
+	}
+
+	{
+
+		float h_vector[3] = { -1,0,1 }; // horizontal
+		float v_vector[3] = { 1,2,1 }; // vertical 
+		Test* kernel = new SeparableKernel_Image(3,
+			h_vector,
+			v_vector,
+			1,
+			true,
+			"separable, line test, image",
+			roadImg);
+		kernel->runTest();
+
+	}
+
+	{
+
+		float data[9] = { 0.077847,  0.123317,  0.077847,
+						  0.123317,  0.195346,  0.123317,
+			              0.077847,  0.123317,  0.077847 };
+
+		Test* kernel = new Kernel_Image(3,
+			data,
+			1,
+			false,
+			"kernel, Gaussian, image",
+			imgPath);
+		kernel->runTest();
+
+	}
+
+	{
+
+		float h_vector[3] = { 0.27901, 0.44198, 0.27901 }; // horizontal
+		float v_vector[3] = { 0.27901, 0.44198, 0.27901 }; // vertical 
+		Test* kernel = new SeparableKernel_Image(3,
+			h_vector,
+			v_vector,
+			1,
+			false,
+			"separable, Gaussian, image",
+			imgPath);
+		kernel->runTest();
+
+	}
+
+	{
+		float h_vector[3] = { -1,0,1 }; // horizontal
+		float v_vector[3] = { 1,2,1 }; // vertical 
+		Test* kernel = new SeparableKernel_Video(3,
+			h_vector,
+			v_vector,
+			1,
+			false,
+			1100,
+			"separable, line test, video",
+			vidPath);
+		kernel->runTest();
+	}
+
+	//{
+	//	float h_vector[3] = { 0.27901, 0.44198, 0.27901 }; // horizontal
+	//	float v_vector[3] = { 0.27901, 0.44198, 0.27901 }; // vertical 
+
+	//	Test* kernel = new SeparableKernel_Video(3,
+	//		h_vector,
+	//		v_vector,
+	//		1,
+	//		true,
+	//		871,
+	//		"separable, Gaussian, video",
+	//		vidPath);
+	//	kernel->runTest();
+
+	//}
+ //   
+
+
+	{
+
+		float data[9] = { -1,  -1,  -1,
+						  -1,   8,  -1,
+						  -1,  -1,  -1 };
+		Test* kernel = new Kernel_Video(3,
+			data,
+			1,
+			true,
+			1100,
+			"kernel, line test, video",
+			vidPath);
+		kernel->runTest();
+
+	}
+
+
+
+
+
+  //  waitKey(0);
+    return 0;
 }
-
-// Run program: Ctrl + F5 or Debug > Start Without Debugging menu
-// Debug program: F5 or Debug > Start Debugging menu
-
-// Tips for Getting Started: 
-//   1. Use the Solution Explorer window to add/manage files
-//   2. Use the Team Explorer window to connect to source control
-//   3. Use the Output window to see build output and other messages
-//   4. Use the Error List window to view errors
-//   5. Go to Project > Add New Item to create new code files, or Project > Add Existing Item to add existing code files to the project
-//   6. In the future, to open this project again, go to File > Open > Project and select the .sln file
