@@ -16,6 +16,8 @@
 #include "SeparableKernel_Image.hpp"
 #include "SeparableKernel_Video.hpp"
 
+#include "MaskGenerator.hpp"
+
 
 using namespace cv;
 using namespace std;
@@ -34,7 +36,7 @@ int main()
 	string dftFilterPath = "D:\\School\\Signals\\Demonstrator_OpenCV\\Tests\\TestProject_V1\\TestProject_V1\\TestImages\\Masks\\Mask1_lowpass.png";
 	
 	{
-		Test* dftTest = new DFT(true, dftFilterPath, "DFT test", imgPath);
+		Test* dftTest = new DFT(true, MaskGenerator::getPerfectHighPass(240, 240, 10), "DFT test", imgPath);
 		dftTest->runTest();
 	}
 	

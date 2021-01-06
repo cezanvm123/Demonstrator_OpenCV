@@ -49,6 +49,9 @@
     <ClInclude Include="DFT.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="MaskGenerator.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="res.txt">

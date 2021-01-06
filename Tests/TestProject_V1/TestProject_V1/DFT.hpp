@@ -5,6 +5,7 @@
 
 #include "Test.hpp"
 
+
 #include "opencv2/highgui/highgui.hpp"
 #include "opencv2/imgproc/imgproc.hpp"
 
@@ -19,14 +20,24 @@ public:
 
 	DFT(bool displayImg, string filter, string testName, string path) :
 		displayImg(displayImg), filterPath(filter), Test(testName, path, 1)
+	{
+		loadFilter();
+	}
+
+
+	DFT(bool displayImg, Mat filter, string testName, string path) :
+		displayImg(displayImg), filter(filter), Test(testName, path, 1)
 	{ }
-
-
-
 
 
 	void runTest()
 	{
+
+	/*	MaskGenerator::getPerfectHighPass(240, 240, 10);
+		MaskGenerator::getPerfectLowPass(240, 240, 10);*/
+
+
+		//MaskGenerator::getButterworthLowPass(240, 240, 5, 20);
 
 		loadImage();
 		if(displayImg)
@@ -58,6 +69,9 @@ public:
 		if(displayImg)
 			imshow("result", result);
 
+
+
+
 	}
 
 
@@ -82,11 +96,15 @@ private:
 		
 	}
 
+	void loadFilter()
+	{
+		filter = cv::imread(filterPath, cv::IMREAD_GRAYSCALE);
+	}
 
 	void loadImage()
 	{
 		cv::Mat original = cv::imread(getPath(), cv::IMREAD_COLOR);
-		filter = cv::imread(filterPath, cv::IMREAD_GRAYSCALE);
+		
 		timingStop();
 
 		// conversion to grayscale image
