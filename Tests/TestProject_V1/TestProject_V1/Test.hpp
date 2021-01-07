@@ -64,13 +64,13 @@ public:
 	void timingStart(MeasurementType type)
 	{
 		currentType = type;
-		start = std::chrono::high_resolution_clock::now();
+		start = std::chrono::steady_clock::now();
 		
 	}
 
 	void timingStop()
 	{
-		end = std::chrono::high_resolution_clock::now();
+		end = std::chrono::steady_clock::now();
 
 		chrono::nanoseconds time = end - start;
 

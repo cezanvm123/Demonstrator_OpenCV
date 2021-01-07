@@ -27,8 +27,16 @@ using namespace std;
 
 int main()
 {
-   
-	String roadImg = "D:\\School\\Signals\\Demonstrator_OpenCV\\Tests\\TestProject_V1\\TestProject_V1\\TestImages\\road.png";
+	/* Linux paths
+	String roadImg = "TestImages/road.png";
+
+	String imgPath = "TestImages/OpenCV_240.png";
+	String vidPath = "TestImages/OpenCV.mp4";
+	
+	string dftFilterPath = "TestImages/Masks/Mask1_lowpass.png";
+	*/
+
+    String roadImg = "D:\\School\\Signals\\Demonstrator_OpenCV\\Tests\\TestProject_V1\\TestProject_V1\\TestImages\\road.png";
 
 	String imgPath = "D:\\School\\Signals\\Demonstrator_OpenCV\\Tests\\TestProject_V1\\TestProject_V1\\TestImages\\openCV_240.png";
 	String vidPath = "D:\\School\\Signals\\Demonstrator_OpenCV\\Tests\\TestProject_V1\\TestProject_V1\\TestImages\\openCV.mp4";
