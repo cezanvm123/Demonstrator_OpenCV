@@ -44,7 +44,7 @@ int main()
 	string dftFilterPath = "D:\\School\\Signals\\Demonstrator_OpenCV\\Tests\\TestProject_V1\\TestProject_V1\\TestImages\\Masks\\Mask1_lowpass.png";
 	
 	{
-		Test* dftTest = new DFT(true, MaskGenerator::getPerfectHighPass(240, 240, 10), "DFT test", imgPath);
+		Test* dftTest = new DFT(true, MaskGenerator::getPerfectHighPass(240, 240, 2) xor MaskGenerator::getPerfectLowPass(240, 240, 7), "DFT test", imgPath);
 		dftTest->runTest();
 	}
 	

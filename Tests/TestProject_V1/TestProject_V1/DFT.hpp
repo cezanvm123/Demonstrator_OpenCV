@@ -9,6 +9,7 @@
 #include "opencv2/highgui/highgui.hpp"
 #include "opencv2/imgproc/imgproc.hpp"
 
+
 using namespace std;
 using namespace cv;
 
@@ -33,11 +34,9 @@ public:
 	void runTest()
 	{
 
-	/*	MaskGenerator::getPerfectHighPass(240, 240, 10);
+	/* 	MaskGenerator::getPerfectHighPass(240, 240, 10);
 		MaskGenerator::getPerfectLowPass(240, 240, 10);*/
 
-
-		//MaskGenerator::getButterworthLowPass(240, 240, 5, 20);
 
 		loadImage();
 		if(displayImg)

@@ -2,8 +2,12 @@
 #include <opencv2/core/base.hpp>
 #include "opencv2/highgui/highgui.hpp"
 #include "opencv2/imgproc/imgproc.hpp"
+#include <math.h>       /* exp */
 
 
+
+
+// https://hicraigchen.medium.com/digital-image-processing-using-fourier-transform-in-python-bcb49424fd82 for masks
 
 using namespace cv;
 
@@ -36,27 +40,38 @@ public:
 
 		return mask;
 	}
+	
+	static float distance(int x, int y, int xc, int xy)
+	{
+		return sqrt(powf(x - xc, 2) + powf(y - xy, 2));
+	}
 
+	static Mat getButterworthLowPass(int x, int y, int n, int D0)
+	{
+		cv::Mat mask = cv::Mat::zeros(cv::Size(x, y), CV_8UC1);
 
-	//static Mat getButterworthLowPass(int x, int y, int n, int D0)
-	//{
-	//	cv::Mat mask = cv::Mat::zeros(cv::Size(x, y), CV_8UC1);
+		for (int c = 0; c < x; c++)
+		{
+			for (int r = 0; r < y; r++)
+			{
+				float D = distance(c, r, x / 2, y / 2); // Euclidean Distance
 
-	//	
+				float value = 1 / (1 + powf((D / D0), (2 * n)))   *255;
 
-	//	for (int c = 0; c < x; c++)
-	//	{
-	//		for (int r = 0; r < y; r++)
-	//		{
-	//			float D = sqrt(pow(r, 2) + pow(c, 2));   // Euclidean Distance
+				if (value < 1)
+					value = 0;
+				if (value > 255)
+					value = 255;
 
-	//			mask.at<uchar>(cv::Point(r, c)) = 1 / 1 + powf((D/D0),(2*n));
-	//		}
-	//	}
-	//	imshow("getButterworth_LP", mask);
-	//	waitKey(1);
-	//	return mask;
-	//}
+				//cout << value << endl;
+				mask.at<uchar>(cv::Point(r, c)) = value;
+			}
+		}
+		imshow("getButterworth_LP", mask);
+		waitKey(1);
+		return mask;
+	}
+
 
 
 	//static Mat getButterworthHighPass(int x, int y, int n, int D0)
@@ -80,4 +95,35 @@ public:
 	//	waitKey(1);
 	//	return mask;
 	//}
+
+
+	static Mat getGuassianLowPass(int x, int y, int D0)
+	{
+		cv::Mat mask = cv::Mat::zeros(cv::Size(x, y), CV_8UC1);
+
+		for (int c = 0; c < x; c++)
+		{
+			for (int r = 0; r < y; r++)
+			{
+				float D = distance(r, c, x / 2, y / 2); // Euclidean Distance
+				float ex1 = pow(D, 2);
+				float ex2 = 2 * pow(D0, 2);
+
+
+				float value = exp(ex1/ex2);
+
+				if (value < 1)
+					value = 0;
+				if (value > 255)
+					value = 255;
+			
+				value = value /255;
+				
+				mask.at<uchar>(cv::Point(r, c)) = value;
+			}
+		}
+		imshow("Gaussian", mask);
+		waitKey(1);
+		return mask;
+	}
 };
