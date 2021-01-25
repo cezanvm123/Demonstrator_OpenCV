@@ -43,11 +43,26 @@ int main()
 	
 	string dftFilterPath = "D:\\School\\Signals\\Demonstrator_OpenCV\\Tests\\TestProject_V1\\TestProject_V1\\TestImages\\Masks\\Mask1_lowpass.png";
 	
+	//{
+	//	Test* dftTest = new DFT(true, MaskGenerator::getPerfectHighPass(240, 240, 2) xor MaskGenerator::getPerfectLowPass(240, 240, 7), "DFT test", imgPath);
+	//	dftTest->runTest();
+	//}
+	
+
+	//{
+	//	Test* dftTest = new DFT(true, MaskGenerator::getButterworthHighPass(240,240,10,150), "DFT test", imgPath);
+	//	dftTest->runTest();
+	//}
+	/*{
+		Test* dftTest = new DFT(true, MaskGenerator::getButterworthLowPass(240,240,5,25), "DFT test", imgPath);
+		dftTest->runTest();
+	}*/
+
 	{
-		Test* dftTest = new DFT(true, MaskGenerator::getPerfectHighPass(240, 240, 2) xor MaskGenerator::getPerfectLowPass(240, 240, 7), "DFT test", imgPath);
+		Test* dftTest = new DFT(true, MaskGenerator::getButterworthBandPass(240, 240, 5, 25, 10, 125), "DFT test", imgPath);
 		dftTest->runTest();
 	}
-	
+
 //	
 //	/*
 //	- Gaussian Blur test

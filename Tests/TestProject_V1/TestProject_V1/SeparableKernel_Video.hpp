@@ -80,7 +80,9 @@ private:
 				{
 					for (int i = 0; i < vectorSize; i++)
 					{
-						vec[i] = (currentFrameGrey.at<uchar>(r + (i - 1), c - 1) * h_vector[0]) + (currentFrameGrey.at<uchar>(r + (i - 1), c) * h_vector[1]) + (currentFrameGrey.at<uchar>(r + (i - 1), c + 1) * h_vector[2]);
+						vec[i] = (currentFrameGrey.at<uchar>(r + (i - 1), c - 1) * h_vector[0]) + 
+									(currentFrameGrey.at<uchar>(r + (i - 1), c) * h_vector[1]) + 
+									(currentFrameGrey.at<uchar>(r + (i - 1), c + 1) * h_vector[2]);
 					}
 
 					for (int i = 0; i < vectorSize; i++)

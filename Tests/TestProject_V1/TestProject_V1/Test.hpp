@@ -21,7 +21,7 @@ public:
 		testName(testName), path(path), frameCount(frameCount) 
 	{
 		frameTime = new long[frameCount];
-		testData = new Data[frameCount];
+		testData = new TimingData[frameCount];
 	};
 	virtual void runTest() = 0;
 
@@ -79,7 +79,7 @@ public:
 		switch (currentType)
 		{
 		case MeasurementType::IMAGE_LOAD:  // this is the first timing so the currentDataObject is created here
-			currentDataObject = new Data();
+			currentDataObject = new TimingData();
 			currentDataObject->imageLoadTime = time.count();
 			break;
 
@@ -120,10 +120,10 @@ private:
 	chrono::steady_clock::time_point start;
 	chrono::steady_clock::time_point end;
 	MeasurementType currentType;
-	Data* currentDataObject;
+	TimingData* currentDataObject;
 	
 
-	Data* testData;
+	TimingData* testData;
 
 	long* frameTime;   // array containing all time measurements in ns
 	int dataIndex = 0;

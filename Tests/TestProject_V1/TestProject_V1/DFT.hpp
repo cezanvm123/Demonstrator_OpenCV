@@ -18,6 +18,7 @@ class DFT : public Test
 
 public:
 
+	friend class DFT_video;
 
 	DFT(bool displayImg, string filter, string testName, string path) :
 		displayImg(displayImg), filterPath(filter), Test(testName, path, 1)
@@ -37,10 +38,11 @@ public:
 	/* 	MaskGenerator::getPerfectHighPass(240, 240, 10);
 		MaskGenerator::getPerfectLowPass(240, 240, 10);*/
 
-
+		timingStart(MeasurementType::IMAGE_LOAD);
 		loadImage();
 		if(displayImg)
 			imshow ("original", image);
+		timingStop();
 
 		Mat dft; 
 		getDFT(image, dft);

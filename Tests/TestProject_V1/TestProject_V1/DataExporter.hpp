@@ -4,7 +4,7 @@
 #include <iostream>
 #include <fstream>
 
-class Data
+class TimingData
 {
 public:
 	long imageLoadTime;				// in ns
@@ -22,7 +22,7 @@ class DataExporter
 {
 public:
 
-	static void writeData(Data* list, int listCount, std::string name)
+	static void writeData(TimingData* list, int listCount, std::string name)
 	{
 		std::string csvData = convertToCSV(list, listCount);
 		
@@ -31,7 +31,7 @@ public:
 
 private:
 
-	static std::string convertToCSV(Data* list, int listCount)
+	static std::string convertToCSV(TimingData* list, int listCount)
 	{
 		std::string data = "frame,image load Time,image convertion time,kernel calculation time,image display time \n";
 

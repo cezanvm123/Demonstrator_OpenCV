@@ -56,7 +56,7 @@ public:
 			{
 				float D = distance(c, r, x / 2, y / 2); // Euclidean Distance
 
-				float value = 1 / (1 + powf((D / D0), (2 * n)))   *255;
+				float value = 1 / (1 + powf((D / D0), (2 * n))) *255;
 
 				if (value < 1)
 					value = 0;
@@ -74,27 +74,67 @@ public:
 
 
 
-	//static Mat getButterworthHighPass(int x, int y, int n, int D0)
-	//{
-	//	cv::Mat mask = cv::Mat::zeros(cv::Size(x, y), CV_8UC1);
+	static Mat getButterworthHighPass(int x, int y, int n, int D0)
+	{
+		cv::Mat mask = cv::Mat::zeros(cv::Size(x, y), CV_8UC1);
+
+		for (int c = 0; c < x; c++)
+		{
+			for (int r = 0; r < y; r++)
+			{
+				float D = distance(c, r, x / 2, y / 2);  // Euclidean Distance
+
+				float value = 1 / (1 + powf((D0 / D), (2 * n))) *255;
+
+				if (value < 1)
+					value = 0;
+				if (value > 255)
+					value = 255;
+				
+
+			//	std::cout << c << " " << r << std::endl;
+				mask.at<uchar>(cv::Point(r, c)) = value;
+			}
+		}
+		imshow("getButterworth_HP", mask);
+		waitKey(1);
+		return mask;
+	}
+
+	static Mat getButterworthBandPass(int x, int y, int innerN, int innerD0, int outerN, int outerD0 )
+	{
+		cv::Mat mask = cv::Mat::zeros(cv::Size(x, y), CV_8UC1);
+
+		for (int c = 0; c < x; c++)
+		{
+			for (int r = 0; r < y; r++)
+			{
+				float D = distance(c, r, x / 2, y / 2);  // Euclidean Distance
+
+				float innerValue = 1 / (1 + powf((outerD0 / D), (2 * outerN))) * 255; //highpass
+				float outerValue = 1 / (1 + powf((D / innerD0), (2 * innerN))) * 255; //lowpass
+
+				float value = 0;
+				if (innerValue > outerValue)
+					value = innerValue;
+				else
+					value = outerValue;
+
+				if (value < 1)
+					value = 0;
+				if (value > 255)
+					value = 255;
 
 
+				//	std::cout << c << " " << r << std::endl;
+				mask.at<uchar>(cv::Point(r, c)) = value;
+			}
+		}
+		imshow("getButterworth_BP", mask);
+		waitKey(1);
+		return mask;
+	}
 
-	//	for (int c = 0; c < x; c++)
-	//	{
-	//		for (int r = 0; r < y; r++)
-	//		{
-	//			float D = sqrt(pow(r, 2) + pow(c, 2));   // Euclidean Distance
-
-	//			mask.at<uchar>(cv::Point(r, c)) = 1 / 1 + powf((D0 / D), (2 * n));
-
-	//			std::cout << c << " " << r << std::endl;
-	//		}
-	//	}
-	//	imshow("getButterworth_HP", mask);
-	//	waitKey(1);
-	//	return mask;
-	//}
 
 
 	static Mat getGuassianLowPass(int x, int y, int D0)
@@ -117,7 +157,7 @@ public:
 				if (value > 255)
 					value = 255;
 			
-				value = value /255;
+			//	value = value /255;
 				
 				mask.at<uchar>(cv::Point(r, c)) = value;
 			}
