@@ -67,7 +67,7 @@ public:
 				mask.at<uchar>(cv::Point(r, c)) = value;
 			}
 		}
-		imshow("getButterworth_LP", mask);
+		//imshow("getButterworth_LP", mask);
 		waitKey(1);
 		return mask;
 	}
@@ -96,7 +96,7 @@ public:
 				mask.at<uchar>(cv::Point(r, c)) = value;
 			}
 		}
-		imshow("getButterworth_HP", mask);
+		//imshow("getButterworth_HP", mask);
 		waitKey(1);
 		return mask;
 	}
@@ -130,7 +130,7 @@ public:
 				mask.at<uchar>(cv::Point(r, c)) = value;
 			}
 		}
-		imshow("getButterworth_BP", mask);
+		//imshow("getButterworth_BP", mask);
 		waitKey(1);
 		return mask;
 	}
@@ -162,7 +162,7 @@ public:
 				mask.at<uchar>(cv::Point(r, c)) = value;
 			}
 		}
-		imshow("Gaussian", mask);
+		//imshow("Gaussian", mask);
 		waitKey(1);
 		return mask;
 	}

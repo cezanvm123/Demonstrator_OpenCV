@@ -156,6 +156,8 @@
   <ItemGroup>
     <ClInclude Include="DataExporter.hpp" />
     <ClInclude Include="DFT.hpp" />
+    <ClInclude Include="DFT_functions.hpp" />
+    <ClInclude Include="DFT_Video.hpp" />
     <ClInclude Include="Kernel_Image.hpp" />
     <ClInclude Include="Kernel_Video.hpp" />
     <ClInclude Include="MaskGenerator.hpp" />
