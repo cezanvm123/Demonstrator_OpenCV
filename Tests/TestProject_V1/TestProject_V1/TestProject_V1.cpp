@@ -51,9 +51,9 @@ int main()
 
 	*/
 	{
-		float data[9] = { -1,  -1,  -1,
-						  -1,   8,  -1,
-						  -1,  -1,  -1 };
+		float data[9] = { 0.077847,	0.123317,	0.077847,
+						  0.123317,	0.195346,	0.123317,
+						  0.077847,	0.123317,	0.077847 };
 		Test* kernel = new Kernel_Video(3,
 			data,
 			1,
@@ -64,7 +64,7 @@ int main()
 		kernel->runTest();
 
 
-		float h_vector[3] = { -1,0,1 }; // horizontal
+		float h_vector[3] = { 0.27901,0.44198,0.27901 }; // horizontal
 		float v_vector[3] = { 1,2,1 }; // vertical 
 		Test* sepKernel = new SeparableKernel_Video(3,
 			h_vector,
@@ -129,24 +129,27 @@ int main()
 		float data[9] = { -1,  -1,  -1,
 						  -1,   8,  -1,
 						  -1,  -1,  -1 };
-		Test* kernel = new Kernel_Image(3,
+		Test* kernel = new Kernel_Video(3,
 			data,
 			1,
 			displays,
-			"kernel, edge test, image",
-			roadImg);
+			1100,
+			"kernel, Gaussian Blur, video",
+			vidPath);
 		kernel->runTest();
+
 
 		float h_vector[3] = { -1,0,1 }; // horizontal
 		float v_vector[3] = { 1,2,1 }; // vertical 
-		Test* sep_kernel = new SeparableKernel_Image(3,
+		Test* sepKernel = new SeparableKernel_Video(3,
 			h_vector,
 			v_vector,
 			1,
 			displays,
-			"separable, edge test, image",
-			roadImg);
-		sep_kernel->runTest();
+			1100,
+			"separable, Gaussian Blur, video",
+			vidPath);
+		sepKernel->runTest();
 
 	}
 
