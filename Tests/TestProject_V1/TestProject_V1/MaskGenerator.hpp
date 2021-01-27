@@ -111,8 +111,8 @@ public:
 			{
 				float D = distance(c, r, x / 2, y / 2);  // Euclidean Distance
 
-				float innerValue = 1 / (1 + powf((outerD0 / D), (2 * outerN))) * 255; //highpass
-				float outerValue = 1 / (1 + powf((D / innerD0), (2 * innerN))) * 255; //lowpass
+				float innerValue = 1 / (1 + powf(( D/ outerD0 ), (2 * outerN))) * 255; //highpass
+				float outerValue = 1 / (1 + powf(( innerD0 / D), (2 * innerN))) * 255; //lowpass
 
 				float value = 0;
 				if (innerValue > outerValue)
@@ -125,7 +125,10 @@ public:
 				if (value > 255)
 					value = 255;
 
+				value -= 255;
+				value *= -1;
 
+				
 				//	std::cout << c << " " << r << std::endl;
 				mask.at<uchar>(cv::Point(r, c)) = value;
 			}

@@ -32,12 +32,12 @@ int main()
     String roadImg = "D:\\School\\Signals\\Demonstrator_OpenCV\\Tests\\TestProject_V1\\TestProject_V1\\TestImages\\road.png";
 
 	String imgPath = "D:\\School\\Signals\\Demonstrator_OpenCV\\Tests\\TestProject_V1\\TestProject_V1\\TestImages\\openCV_240.png";
-	String vidPath = "D:\\School\\Signals\\Demonstrator_OpenCV\\Tests\\TestProject_V1\\TestProject_V1\\TestImages\\OpenCV.mp4";
+	String vidPath = "D:\\School\\Signals\\Demonstrator_OpenCV\\Tests\\TestProject_V1\\TestProject_V1\\TestImages\\balls.mp4";
 	
 	string dftFilterPath = "D:\\School\\Signals\\Demonstrator_OpenCV\\Tests\\TestProject_V1\\TestProject_V1\\TestImages\\Masks\\Mask1_lowpass.png";
 	
 
-	bool displays = false;  // to be set to true in second run
+	bool displays = true;  // to be set to true in second run
 
 	std::cout << "Running..." << std::endl;
 	
@@ -65,7 +65,7 @@ int main()
 
 
 		float h_vector[3] = { 0.27901,0.44198,0.27901 }; // horizontal
-		float v_vector[3] = { 1,2,1 }; // vertical 
+		float v_vector[3] = { 0.27901,0.44198,0.27901 }; // vertical 
 		Test* sepKernel = new SeparableKernel_Video(3,
 			h_vector,
 			v_vector,
@@ -189,7 +189,7 @@ int main()
 									 /_/
 	*/
 	{
-		Test* dftTest = new DFT_Video(displays, MaskGenerator::getButterworthBandPass(240, 240, 5, 25, 10, 125), "DFT_BP test", vidPath, 1100);
+		Test* dftTest = new DFT_Video(displays, MaskGenerator::getButterworthBandPass(240, 240, 30, 100, 10, 25), "DFT_BP test", vidPath, 1100);
 		dftTest->runTest();
 	}
 	
